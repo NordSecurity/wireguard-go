@@ -10,7 +10,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"net"
-	"os"
 	"sync"
 	"time"
 
@@ -310,9 +309,7 @@ func (device *Device) RoutineReadFromTUN() {
 				continue
 			}
 			if !device.isClosed() {
-				if !errors.Is(readErr, os.ErrClosed) {
-					device.log.Errorf("Failed to read packet from TUN device: %v", readErr)
-				}
+				device.log.Errorf("Failed to read packet from TUN device: %v", readErr)
 				go device.Close()
 			}
 			return
